@@ -33,6 +33,10 @@ export const useStreamEmail = () => {
           setStreamedContent(prev => ({ ...prev, subject: data.content }));
         } else if (data.type === 'body') {
           setStreamedContent(prev => ({ ...prev, body: data.content }));
+        } else if (data.type === 'body-chunk') {
+          setStreamedContent(prev => ({ ...prev, body: prev.body + data.content }));
+        } else if (data.type === 'body-complete') {
+          setStreamedContent(prev => ({ ...prev, body: data.content }));
         }
       },
       () => {

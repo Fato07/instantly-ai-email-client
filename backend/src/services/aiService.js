@@ -1,5 +1,16 @@
+import { openaiService } from './openaiService.js';
+
 export const aiService = {
-  classifyIntent(prompt) {
+  async classifyIntent(prompt) {
+    if (openaiService.isConfigured()) {
+      try {
+        return await openaiService.classifyEmailIntent(prompt);
+      } catch (error) {
+        console.error('OpenAI classification failed, using fallback:', error);
+      }
+    }
+    
+    // Fallback to template-based classification
     const lowerPrompt = prompt.toLowerCase();
     
     if (
@@ -28,6 +39,15 @@ export const aiService = {
   },
 
   async generateEmail(prompt, assistantType, recipientContext = '') {
+    if (openaiService.isConfigured()) {
+      try {
+        return await openaiService.generateEmail(prompt, assistantType, recipientContext);
+      } catch (error) {
+        console.error('OpenAI generation failed, using fallback:', error);
+      }
+    }
+    
+    // Fallback to template-based generation
     const templates = {
       sales: {
         subjects: [

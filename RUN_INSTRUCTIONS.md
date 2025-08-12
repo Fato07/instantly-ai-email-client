@@ -6,16 +6,34 @@
 - Node.js installed
 - Yarn package manager installed
 - Resend API key (optional, for real email sending)
+- OpenAI API key (optional, for real AI-powered email generation)
 
 ## Email Sending Setup (Optional)
 To enable real email sending:
 1. Sign up for free at https://resend.com
 2. Get your API key from https://resend.com/api-keys
-3. Create a `.env` file in the backend directory:
-   ```
-   RESEND_API_KEY=re_your_api_key_here
-   DEFAULT_FROM_EMAIL=onboarding@resend.dev
-   ```
+3. Add to your `.env` file (see below)
+
+## AI Setup (Optional)
+To enable real AI-powered email generation:
+1. Sign up at https://platform.openai.com
+2. Get your API key from https://platform.openai.com/api-keys
+3. Add to your `.env` file (see below)
+
+## Environment Configuration
+Create a `.env` file in the backend directory:
+```
+# Email sending (optional)
+RESEND_API_KEY=re_your_api_key_here
+DEFAULT_FROM_EMAIL=onboarding@resend.dev
+
+# AI generation (optional)
+OPENAI_API_KEY=sk-your_openai_api_key_here
+
+# Server
+PORT=3002
+NODE_ENV=development
+```
 
 ## Backend Setup (Terminal 1)
 ```bash
@@ -72,8 +90,14 @@ yarn dev         # Start frontend server on port 3000
 - **Free Resend account**: Can only send from `onboarding@resend.dev`
 - **Custom domain**: Configure your domain at resend.com
 
+## AI Behavior
+- **With OpenAI API key**: Uses GPT-3.5 for intelligent email classification and generation
+- **Without OpenAI API key**: Falls back to template-based responses
+- **Real-time streaming**: AI responses stream in real-time for better UX
+
 ## Notes
 - Emails are saved to a local SQLite database
-- The AI generation uses template-based responses (can be replaced with real AI API)
+- AI automatically classifies intent (sales, follow-up, general) for better results
+- Sales emails are limited to 40 words as per requirements
 - Email validation ensures proper email format
 - All core requirements from the assignment have been implemented
