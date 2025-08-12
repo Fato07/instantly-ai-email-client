@@ -37,14 +37,17 @@ export default function ComposeEmail({ open, onClose }) {
     }));
   };
 
-  const handleSend = async () => {
+  const handleSend = async (sendImmediately = false) => {
     if (!emailData.to || !emailData.subject) {
       alert('Please fill in the To and Subject fields');
       return;
     }
 
     try {
-      await createEmailMutation.mutateAsync(emailData);
+      await createEmailMutation.mutateAsync({
+        ...emailData,
+        sendImmediately
+      });
       // Reset form and close
       setEmailData({
         to: '',
@@ -56,6 +59,7 @@ export default function ComposeEmail({ open, onClose }) {
       onClose();
     } catch (error) {
       console.error('Failed to send email:', error);
+      alert(error.message || 'Failed to send email');
     }
   };
 
@@ -154,17 +158,25 @@ export default function ComposeEmail({ open, onClose }) {
           </Box>
         </DialogContent>
 
-        <DialogActions sx={{ p: 2 }}>
+        <DialogActions sx={{ p: 2, gap: 1 }}>
           <Button onClick={handleClose} disabled={createEmailMutation.isLoading}>
             Cancel
           </Button>
+          <Box sx={{ flex: 1 }} />
           <Button
-            onClick={handleSend}
+            onClick={() => handleSend(false)}
+            variant="outlined"
+            disabled={createEmailMutation.isLoading || !emailData.to || !emailData.subject}
+          >
+            Save Draft
+          </Button>
+          <Button
+            onClick={() => handleSend(true)}
             variant="contained"
             startIcon={createEmailMutation.isLoading ? <CircularProgress size={20} /> : <SendIcon />}
             disabled={createEmailMutation.isLoading || !emailData.to || !emailData.subject}
           >
-            {createEmailMutation.isLoading ? 'Sending...' : 'Send'}
+            {createEmailMutation.isLoading ? 'Sending...' : 'Send Email'}
           </Button>
         </DialogActions>
       </Dialog>

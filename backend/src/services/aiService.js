@@ -1,9 +1,7 @@
 export const aiService = {
-  // Classify the intent of the user's email request
   classifyIntent(prompt) {
     const lowerPrompt = prompt.toLowerCase();
     
-    // Check for sales-related keywords
     if (
       lowerPrompt.includes('sales') ||
       lowerPrompt.includes('pitch') ||
@@ -15,7 +13,6 @@ export const aiService = {
       return 'sales';
     }
     
-    // Check for follow-up related keywords
     if (
       lowerPrompt.includes('follow up') ||
       lowerPrompt.includes('follow-up') ||
@@ -27,15 +24,10 @@ export const aiService = {
       return 'follow-up';
     }
     
-    // Default to general if no specific intent detected
     return 'general';
   },
 
-  // Generate email content based on the assistant type
   async generateEmail(prompt, assistantType, recipientContext = '') {
-    // In a real implementation, this would call an AI API (OpenAI, Claude, etc.)
-    // For this demo, we'll create template-based responses
-    
     const templates = {
       sales: {
         subjects: [
@@ -77,15 +69,12 @@ export const aiService = {
       }
     };
 
-    // Extract topic from prompt
     const topic = this.extractTopic(prompt);
     
-    // Select random template
     const templateSet = templates[assistantType] || templates.general;
     const subject = templateSet.subjects[Math.floor(Math.random() * templateSet.subjects.length)];
     const body = templateSet.bodies[Math.floor(Math.random() * templateSet.bodies.length)];
     
-    // Replace placeholders
     const replacements = {
       topic: topic,
       name: 'there',
@@ -110,17 +99,14 @@ export const aiService = {
   },
 
   extractTopic(prompt) {
-    // Simple topic extraction - in production, use NLP
     const words = prompt.split(' ');
     if (words.length <= 3) return prompt;
     
-    // Try to find key phrases
     if (prompt.toLowerCase().includes('meeting')) return 'meeting request';
     if (prompt.toLowerCase().includes('proposal')) return 'business proposal';
     if (prompt.toLowerCase().includes('update')) return 'project update';
     if (prompt.toLowerCase().includes('introduction')) return 'introduction';
     
-    // Return first few meaningful words
     return words.slice(0, 3).join(' ');
   }
 };

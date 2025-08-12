@@ -2,14 +2,12 @@ import { useMutation } from '@tanstack/react-query';
 import { aiAPI } from '@/utils/api';
 import { useState, useCallback } from 'react';
 
-// Classify email intent
 export const useClassifyIntent = () => {
   return useMutation({
     mutationFn: aiAPI.classifyIntent,
   });
 };
 
-// Generate email content
 export const useGenerateEmail = () => {
   return useMutation({
     mutationFn: ({ prompt, assistantType, recipientContext }) => 
@@ -17,7 +15,6 @@ export const useGenerateEmail = () => {
   });
 };
 
-// Stream email generation
 export const useStreamEmail = () => {
   const [isStreaming, setIsStreaming] = useState(false);
   const [streamedContent, setStreamedContent] = useState({ subject: '', body: '' });
@@ -31,7 +28,6 @@ export const useStreamEmail = () => {
     const cleanup = aiAPI.streamEmailGeneration(
       prompt,
       type,
-      // onChunk
       (data) => {
         if (data.type === 'subject') {
           setStreamedContent(prev => ({ ...prev, subject: data.content }));
@@ -39,11 +35,9 @@ export const useStreamEmail = () => {
           setStreamedContent(prev => ({ ...prev, body: data.content }));
         }
       },
-      // onComplete
       () => {
         setIsStreaming(false);
       },
-      // onError
       (err) => {
         setError(err);
         setIsStreaming(false);

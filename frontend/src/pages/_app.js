@@ -46,9 +46,9 @@ export default function App({ Component, pageProps }) {
             <Link href="/">
               <EmailIcon />
             </Link>
-            <Link href="/leads">
+            {/* <Link href="/leads">
               <AccountBox />
-            </Link>
+            </Link> */}
           </div>
           <main>
             <Component {...pageProps} />

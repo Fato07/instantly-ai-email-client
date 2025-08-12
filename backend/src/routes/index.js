@@ -6,9 +6,6 @@ export default async function routes(fastify, options) {
     return 'pong\n';
   });
 
-  // Register email routes
   await fastify.register(emailRoutes);
-  
-  // Register AI routes
   await fastify.register(aiRoutes);
 }

@@ -8,8 +8,13 @@ import {
   CircularProgress,
   Alert,
   Divider,
-  Skeleton
+  Skeleton,
+  Chip
 } from '@mui/material';
+import DraftsIcon from '@mui/icons-material/Drafts';
+import SendIcon from '@mui/icons-material/Send';
+import ErrorIcon from '@mui/icons-material/Error';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import { useEmails } from '@/hooks/useEmails';
 
 export default function EmailSidebar({ selectedEmailId, onEmailSelect }) {
@@ -72,9 +77,30 @@ export default function EmailSidebar({ selectedEmailId, onEmailSelect }) {
               >
                 <ListItemText
                   primary={
-                    <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                      {email.to || 'No recipient'}
-                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 500, flex: 1 }}>
+                        {email.to || 'No recipient'}
+                      </Typography>
+                      {email.status && (
+                        <Chip
+                          size="small"
+                          label={email.status}
+                          icon={
+                            email.status === 'draft' ? <DraftsIcon /> :
+                            email.status === 'sending' ? <HourglassEmptyIcon /> :
+                            email.status === 'sent' ? <SendIcon /> :
+                            email.status === 'failed' ? <ErrorIcon /> : null
+                          }
+                          color={
+                            email.status === 'draft' ? 'default' :
+                            email.status === 'sending' ? 'warning' :
+                            email.status === 'sent' ? 'success' :
+                            email.status === 'failed' ? 'error' : 'default'
+                          }
+                          sx={{ height: 20 }}
+                        />
+                      )}
+                    </Box>
                   }
                   secondary={
                     <>

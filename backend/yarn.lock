@@ -330,9 +330,11 @@ __metadata:
   resolution: "backend@workspace:."
   dependencies:
     "@fastify/cors": "npm:^9.0.1"
+    dotenv: "npm:^17.2.1"
     fastify: "npm:^4.27.0"
     knex: "npm:^3.1.0"
     nodemon: "npm:^3.1.9"
+    resend: "npm:^6.0.1"
     sqlite3: "npm:^5.1.7"
   languageName: unknown
   linkType: soft
@@ -653,6 +655,13 @@ __metadata:
   version: 2.0.3
   resolution: "detect-libc@npm:2.0.3"
   checksum: 10c0/88095bda8f90220c95f162bf92cad70bd0e424913e655c20578600e35b91edc261af27531cf160a331e185c0ced93944bc7e09939143225f56312d7fd800fdb7
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^17.2.1":
+  version: 17.2.1
+  resolution: "dotenv@npm:17.2.1"
+  checksum: 10c0/918dd2f9d8b8f86b0afabad9534793d51de3718c437f9e7b6525628cf68c1d4ae768cc37a5afff38c066f58a8ecf549f4ac6cd5617485bd328e826112cc2650a
   languageName: node
   linkType: hard
 
@@ -2095,6 +2104,18 @@ __metadata:
   version: 2.0.2
   resolution: "require-from-string@npm:2.0.2"
   checksum: 10c0/aaa267e0c5b022fc5fd4eef49d8285086b15f2a1c54b28240fdf03599cbd9c26049fee3eab894f2e1f6ca65e513b030a7c264201e3f005601e80c49fb2937ce2
+  languageName: node
+  linkType: hard
+
+"resend@npm:^6.0.1":
+  version: 6.0.1
+  resolution: "resend@npm:6.0.1"
+  peerDependencies:
+    "@react-email/render": ^1.1.0
+  peerDependenciesMeta:
+    "@react-email/render":
+      optional: true
+  checksum: 10c0/9ee141db15e0269e37f1b6c51650f7e99b5e71217fac2b36310e405bfd6da5d0a1264bcc212c0682ad0ef5c75b65f1f52a8f2fda82724ef70224212aab96a8d8
   languageName: node
   linkType: hard
 
