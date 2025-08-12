@@ -22,6 +22,10 @@ export default function EmailLayout() {
     setComposeOpen(false);
   };
 
+  const handleEmailDeleted = () => {
+    setSelectedEmailId(null);
+  };
+
   return (
     <Box sx={{ display: 'flex', height: '100vh', overflow: 'hidden' }}>
       <Grid container spacing={0} sx={{ height: '100%' }}>
@@ -53,7 +57,10 @@ export default function EmailLayout() {
               backgroundColor: '#fafafa'
             }}
           >
-            <EmailViewer emailId={selectedEmailId} />
+            <EmailViewer 
+              emailId={selectedEmailId} 
+              onEmailDeleted={handleEmailDeleted}
+            />
           </Paper>
         </Grid>
       </Grid>

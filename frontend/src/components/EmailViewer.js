@@ -9,13 +9,14 @@ import {
   IconButton,
   Tooltip
 } from '@mui/material';
-import { useEmail } from '@/hooks/useEmails';
+import { useEmail, useDeleteEmail } from '@/hooks/useEmails';
 import ReplyIcon from '@mui/icons-material/Reply';
 import ForwardIcon from '@mui/icons-material/Forward';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-export default function EmailViewer({ emailId }) {
+export default function EmailViewer({ emailId, onEmailDeleted }) {
   const { data: email, isLoading, error } = useEmail(emailId);
+  const deleteMutation = useDeleteEmail();
 
   if (!emailId) {
     return (
@@ -63,6 +64,17 @@ export default function EmailViewer({ emailId }) {
       </Box>
     );
   }
+
+  const handleDelete = async () => {
+    try {
+      await deleteMutation.mutateAsync(emailId);
+      if (onEmailDeleted) {
+        onEmailDeleted();
+      }
+    } catch (error) {
+      console.error('Failed to delete email:', error);
+    }
+  };
 
   return (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -124,7 +136,12 @@ export default function EmailViewer({ emailId }) {
               </IconButton>
             </Tooltip>
             <Tooltip title="Delete">
-              <IconButton size="small" color="error">
+              <IconButton 
+                size="small" 
+                color="error"
+                onClick={handleDelete}
+                disabled={deleteMutation.isLoading}
+              >
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
